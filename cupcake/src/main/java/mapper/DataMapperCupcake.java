@@ -5,6 +5,7 @@
  */
 package mapper;
 
+import db.connector.DBConnector;
 import entity.Bottom;
 import entity.Cupcake;
 import entity.Top;
@@ -22,11 +23,11 @@ import java.util.List;
  */
 public class DataMapperCupcake {
     
-   private DB conn;
+   private DBConnector conn;
     
     public void addTopping(String name, int price) throws SQLException
              {
-        conn = new DB();
+        conn = new DBConnector();
 
         String insertTopping = "INSERT INTO `cupcake`.`topping` (name, price) "
                 + "VALUES (?, " + price + ");";
@@ -37,7 +38,7 @@ public class DataMapperCupcake {
 
     public void addBottom(String name, int price) throws SQLException
             {
-        conn = new DB();
+        conn = new DBConnector();
 
         String insertBottom = "INSERT INTO `cupcake`.`bottom` (name, price) "
                 + "VALUES (?, " + price + ");";
@@ -56,7 +57,7 @@ public class DataMapperCupcake {
 
     public List<Top> getTops() {
         try {
-            conn = new DB();
+            conn = new DBConnector();
 
             String query = "SELECT * FROM `Cupcake`.`topping`;";
 
@@ -83,7 +84,7 @@ public class DataMapperCupcake {
 
     public List<Bottom> getBottoms() {
         try {
-            conn = new DB();
+            conn = new DBConnector();
 
             String query = "SELECT * FROM `Cupcake`.`bottom`;";
 
@@ -110,7 +111,7 @@ public class DataMapperCupcake {
 
     public int getTopPrice(String name) {
         try {
-            conn = new DB();
+            conn = new DBConnector();
 
             String query = "SELECT price FROM `Cupcake`.`topping` "
                     + "WHERE `cupcake`.`topping`.`name` = '" + name + "';";
@@ -133,7 +134,7 @@ public class DataMapperCupcake {
 
     public int getBottomPrice(String name) {
         try {
-            conn = new DB();
+            conn = new DBConnector();
 
             String query = "SELECT price FROM `Cupcake`.`bottom` "
                     + "WHERE `cupcake`.`bottom`.`name` = '" + name + "';";
