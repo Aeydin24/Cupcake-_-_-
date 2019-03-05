@@ -8,7 +8,7 @@ package testmain.testmain;
 
 import database.connector.DataSourceMysql;
 import mapper.UserMapper;
-import entity.User;
+import entity.Users;
 
 public class testmain
 {
@@ -22,7 +22,7 @@ public class testmain
         
         userMapper.registerUser("xyz", "999", 1000, false);
         
-        User user = userMapper.validateUser("xyz", "999");
+        Users user = userMapper.validateUser("xyz", "999");
         
         userMapper.increaseBalance(user, 234);
         

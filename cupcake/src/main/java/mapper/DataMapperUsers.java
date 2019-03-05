@@ -31,16 +31,16 @@ public class DataMapperUsers {
             String password;
             int balance;
             String email;
-            int admin;
+            boolean admin;
             
             while(rs.next()) {
                 id = rs.getInt("iduser");
                 password = rs.getString("password");
                 balance = rs.getInt("balance");
                 email = rs.getString("email");
-                admin = rs.getInt("isadmin");
+                admin = rs.getBoolean("isadmin");
                 
-                user = new Users(id, username, password, balance, false,  email);
+                user = new Users(id, username, password, balance, admin, email);
             }
             return user;
             
