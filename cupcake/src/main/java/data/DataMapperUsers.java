@@ -1,6 +1,7 @@
 package data;
 
 import entity.Users;
+import db.connector.DBConnector;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
