@@ -9,6 +9,7 @@ package entity;
  *
  * @author ndupo
  */
+
 public class Top 
 {
     private final String name;
