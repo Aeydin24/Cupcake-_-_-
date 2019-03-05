@@ -61,7 +61,7 @@ public class DataMapperCupcake {
 
             String query = "SELECT * FROM `Cupcake`.`topping`;";
 
-            Connection connection = DB.getConnection();
+            Connection connection = DBConnector.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
