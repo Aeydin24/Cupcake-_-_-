@@ -1,5 +1,6 @@
 package data;
 
+import entity.Users;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,14 +29,16 @@ public class DataMapperUsers {
             String password;
             int balance;
             String email;
+            int admin;
             
             while(rs.next()) {
                 id = rs.getInt("iduser");
                 password = rs.getString("password");
                 balance = rs.getInt("balance");
                 email = rs.getString("email");
+                admin = rs.getInt("isadmin");
                 
-                user = new Users(id, username, password, balance, email);
+                user = new Users(id, username, password, balance, false,  email);
             }
             return user;
             
