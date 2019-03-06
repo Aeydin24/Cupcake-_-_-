@@ -2,6 +2,7 @@ package mapper;
 
 import entity.Users;
 import db.connector.DBConnector;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +15,10 @@ import javax.sql.DataSource;
  *
  * @author ibenk
  */
-public class DataMapperUsers {
+public class DataMapperUsers 
+{
 
-    private final DBConnector dbc;
+    private DBConnector dbc;
 
     public DataMapperUsers() throws SQLException {
         this.dbc = new DBConnector();
@@ -24,73 +26,53 @@ public class DataMapperUsers {
     /*
     The getUser-method finds all information about the user that has the username, we give as input.
      */
-    public Users getUser(String username) throws SQLException {
-        try {
-            DBConnector conn = new DBConnector();
-            Statement statement = conn.getConnection().createStatement();
-            String query
-                    = "SELECT * "
-                    + "FROM cupcake.users "
-                    + "WHERE username='" + username + "'";
+    public Users getUser(String userName) throws SQLException {
+        
+        Users user = new Users();
 
-            ResultSet rs = statement.executeQuery(query);
-            Users user = null;
-            int id;
-            String password;
-            int balance;
-            String email;
-            boolean admin;
+        dbc = new DBConnector();
 
-            while (rs.next()) {
-                id = rs.getInt("iduser");
-                password = rs.getString("password");
-                balance = rs.getInt("balance");
-                email = rs.getString("email");
-                admin = rs.getBoolean("isadmin");
+        String query = "SELECT * FROM cupcake.users "
+                + "WHERE `name`='" + userName + "';";
 
-                user = new Users(username, password, balance, admin, email);
-            }
-            return user;
+        Connection connection = dbc.getConnection();
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
 
-        } catch (Exception ex) {
-            Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
+        while (rs.next()) {
+            String password = rs.getString("password");
+            user.setPassword(password);
+            int balance = rs.getInt("balance");
+            user.setBalance(balance);
+            String email = rs.getString("email");
+            user.setEmail(email);
         }
-        return null;
+        user.setUserName(userName);
+        return user;
     }
 
     /*
     The createUser-method takes a username, password, boolean and email as input.
-    iduser has AI in mysql, so we don't need to type it. 
+    Adds User to Database.
      */
-    public Users createUser(String username, String password, int balance, boolean admin, String email) throws SQLException {
+    public void createUser(String username, String password, int balance, boolean admin, String email) throws SQLException 
+    {
+       if (username != null || password != null || email != null)
+       {    
         try {
-            DBConnector conn = new DBConnector();
-            
-
+            dbc = new DBConnector();
             String createUser
-                    = "INSERT INTO cupcake.users (username, password, balance, admin, email ) "
-                    + "VALUES(?,?,?,?,?);";
+                    = "INSERT INTO cupcake.users (username, password, balance, email ) "
+                    + "VALUES(?,?,0,?);";
 
-            PreparedStatement ps = conn.getConnection().prepareStatement(createUser);
-
+            PreparedStatement ps = dbc.getConnection().prepareStatement(createUser);
             ps.setString(1, username);
             ps.setString(2, password);
-            ps.setDouble(3, balance);
-            ps.setBoolean(4, admin);
-            ps.setString(5, email);
-
+            ps.setString(4, email);
             ps.executeUpdate();
-
-            ResultSet resultSet = ps.getGeneratedKeys();
-
-            if (resultSet.next()) {
-                return new Users(username, password, balance, admin, email);
+            } catch (SQLException ex) {
+          Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);  
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
-        return null;
     }
-
 }

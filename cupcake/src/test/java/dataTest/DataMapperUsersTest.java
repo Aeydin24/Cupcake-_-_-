@@ -48,7 +48,7 @@ public class DataMapperUsersTest {
         System.out.println("getUser");
         String userName = "test";
         DataMapperUsers instance = new DataMapperUsers();
-        Users expResult = new Users("Test", "Test", 0, true, "Test@Test.com");
+        Users expResult = new Users("Test", "Test", 0, "Test@Test.com");
         Users result = instance.getUser(userName);
         assertEquals(expResult.toString(), result.toString());
     }

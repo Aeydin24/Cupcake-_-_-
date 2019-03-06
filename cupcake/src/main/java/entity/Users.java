@@ -9,23 +9,20 @@ package entity;
 import java.io.Serializable;
 
 public class Users implements Serializable {
-    private int id;
+    
     private String userName;
     private String password;
-    private double balance;
-    private boolean admin;
+    private int balance;
     private String email;
+    
+        public Users() {
+    }
 
-    public Users(String userName, String password, double balance, boolean admin, String email) {
+    public Users(String userName, String password, int balance, String email) {
         this.userName = userName;
         this.password = password;
         this.balance = balance;
-        this.admin = admin;
         this.email = email;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getUserName() {
@@ -48,16 +45,8 @@ public class Users implements Serializable {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
     }
 
     public String getEmail() {
@@ -70,7 +59,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" + "id=" + id + ", userName=" + userName + ", password=" + password + ", balance=" + balance + ", admin=" + admin + ", email=" + email + '}';
+        return "Users{" + "userName=" + userName + ", password=" + password + ", balance=" + balance + ", email=" + email + '}';
     }
     
     
