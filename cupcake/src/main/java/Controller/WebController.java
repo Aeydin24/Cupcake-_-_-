@@ -56,6 +56,9 @@ public class WebController extends HttpServlet {
             case "Shop":
                 shop(request, response);
                 break;
+            case "ForwardRegistration":
+                forwardRegistration(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -67,7 +70,11 @@ public class WebController extends HttpServlet {
         String email = (String) request.getParameter("email");
         String password = (String) request.getParameter("password");
         
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/register.jsp");
+        DataMapperUsers dbu = new DataMapperUsers();
+
+        dbu.createUser(username, password, email);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
         rd.forward(request, response);
     }
     
@@ -125,5 +132,10 @@ public class WebController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void forwardRegistration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/register.jsp");
+        rd.forward(request, response);
+    }
 
 }
