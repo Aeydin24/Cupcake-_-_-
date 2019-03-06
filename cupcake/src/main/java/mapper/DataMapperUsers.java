@@ -2,7 +2,6 @@ package mapper;
 
 import entity.Users;
 import db.connector.DBConnector;
-import db.connector.databaseconnect;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,11 +16,10 @@ import javax.sql.DataSource;
  */
 public class DataMapperUsers {
 
-    private databaseconnect dbc = new databaseconnect();
-    
-    public void setDataSource(DataSource ds)
-    {
-        dbc.setDataSource(ds);
+    private final DBConnector dbc;
+
+    public DataMapperUsers() throws SQLException {
+        this.dbc = new DBConnector();
     }
     /*
     The getUser-method finds all information about the user that has the username, we give as input.
@@ -66,14 +64,14 @@ public class DataMapperUsers {
      */
     public Users createUser(String username, String password, int balance, boolean admin, String email) throws SQLException {
         try {
-            dbc.open();
+            DBConnector conn = new DBConnector();
             
 
             String createUser
                     = "INSERT INTO cupcake.users (username, password, balance, admin, email ) "
                     + "VALUES(?,?,?,?,?);";
 
-            PreparedStatement ps = dbc.preparedStatement(createUser, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = conn.getConnection().prepareStatement(createUser);
 
             ps.setString(1, username);
             ps.setString(2, password);
@@ -88,7 +86,6 @@ public class DataMapperUsers {
             if (resultSet.next()) {
                 return new Users(username, password, balance, admin, email);
             }
-            dbc.open();
         } catch (Exception e) {
             e.printStackTrace();
         }
