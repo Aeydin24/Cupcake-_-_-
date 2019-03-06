@@ -14,7 +14,7 @@
     <body>
         <h1>Register here</h1>
         <form method="POST"  action="/cupcake/Controller?origin=Login">
-            <input type="hidden" name="origin" value="registration">
+            <input type="hidden" name="origin" value="Registration">
         Username:<br>
         <input type="text" name="username" value="">
         <br>
