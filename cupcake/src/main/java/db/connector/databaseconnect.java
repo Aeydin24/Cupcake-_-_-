@@ -26,12 +26,12 @@ public class databaseconnect
     public databaseconnect()
     {
     }
-
+    // set connection to server
     public void setDataSource(DataSource dataSource)
     {
         this.dataSource = dataSource;
     }
-    
+    // open connection if closed
     public void open() throws SQLException
     {
         if(connection == null || connection.isClosed())
@@ -39,7 +39,7 @@ public class databaseconnect
             connection = dataSource.getConnection();
         }
     }
-    
+    // close connection
     public void close() throws SQLException
     {
         if(resultSet != null)
@@ -58,12 +58,12 @@ public class databaseconnect
             connection = null;
         }
     }
-    
+    // prepare sql statement
     public PreparedStatement preparedStatement(String sql) throws SQLException
     {
         return connection.prepareStatement(sql);
     }
-    
+    // prepare sql statement with indication
     public PreparedStatement preparedStatement(String sql, int indicator) throws SQLException
     {
         return connection.prepareStatement(sql, indicator);

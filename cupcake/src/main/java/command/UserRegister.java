@@ -27,9 +27,9 @@ public class UserRegister extends Command{
         String password = request.getParameter("password");
         
         DataMapperUsers userMapper = new DataMapperUsers();
-        userMapper.setDataSource(new DataSourceMysql().getDataSource());
+        userMapper.setDataSource(new dataSourceMysql().getDataSource());
         
-        Users user = userMapper.createUser(username, password, email);
+        Users user = userMapper.createUser(username, password, 0, true, username);
         
         if (user == null)
         {

@@ -15,15 +15,16 @@ public class dataSourceMysql
 {
     private MysqlDataSource dataSource = new MysqlDataSource();
     
+    // make connection to a MySQL server
     public dataSourceMysql()
     {
         try
         {
             dataSource.setServerName("localhost");
             dataSource.setPort(3306);
-            dataSource.setDatabaseName("databasebasic");
+            dataSource.setDatabaseName("cupcake");
             dataSource.setUser("root");
-            dataSource.setPassword("admin");
+            dataSource.setPassword("1234");
             dataSource.setUseSSL(false);
         }
         catch(Exception e)
@@ -31,7 +32,7 @@ public class dataSourceMysql
             e.printStackTrace();
         }
     }
-    
+    // connect to mySQL server
     public MysqlDataSource getDataSource()
     {
         return dataSource;
