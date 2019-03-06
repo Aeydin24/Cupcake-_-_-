@@ -47,7 +47,7 @@ public class WebController extends HttpServlet {
 //        }
         String origin = request.getParameter("origin");
         switch (origin) {
-            case "Register":
+            case "Registration":
                 registration(request, response);
                 break;
             case "Login":
