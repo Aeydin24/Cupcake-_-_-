@@ -16,7 +16,7 @@ import mapper.DataMapperUsers;
  *
  * @author ndupo
  */
-public class MainTest 
+public class CreateUserMainTest 
 {
     private DBConnector dbc;
     public void createUser(String username, String password, String email) throws SQLException 
@@ -43,7 +43,7 @@ public class MainTest
         }
     }
     public static void main(String[] args) throws SQLException {
-        MainTest mt = new MainTest();
+        CreateUserMainTest mt = new CreateUserMainTest();
         mt.createUser("Test2", "Test2", "Test2@Test.com");
     }
 }

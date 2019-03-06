@@ -62,15 +62,12 @@ public class WebController extends HttpServlet {
     }
     
     private void registration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        /* Get the User info from URL Parameters.*/
+        
         String username = (String) request.getParameter("username");
         String email = (String) request.getParameter("email");
         String password = (String) request.getParameter("password");
         
-        DataMapperUsers dbu = new DataMapperUsers();
-        /* Insert User into SQL Database */
-        dbu.createUser(username, password, email);
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/register.jsp");
         rd.forward(request, response);
     }
     
