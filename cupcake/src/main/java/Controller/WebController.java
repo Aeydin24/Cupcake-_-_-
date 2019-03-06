@@ -7,11 +7,15 @@ package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mapper.DataMapperUsers;
 
 /**
  *
@@ -30,8 +34,16 @@ public class WebController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+
+        // test that the parameter gets send to server (parameter = value)
+//        String username = request.getParameter("username");
+//        if("hanne".equals(username))
+//        {
+//            login(request, response);
+//        }
+        
         String origin = request.getParameter("origin");
         switch (origin) {
             case "Register":
@@ -52,7 +64,7 @@ public class WebController extends HttpServlet {
         request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
     }
 
-    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{        
         request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
 
@@ -72,7 +84,11 @@ public class WebController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -86,7 +102,11 @@ public class WebController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
