@@ -46,7 +46,7 @@ public class DataMapperUsersTest {
     @Test
     public void testGetUser() throws Exception {
         System.out.println("getUser");
-        String userName = "test";
+        String userName = "Test";
         DataMapperUsers instance = new DataMapperUsers();
         Users expResult = new Users("Test", "Test", 0, "Test@Test.com");
         Users result = instance.getUser(userName);
