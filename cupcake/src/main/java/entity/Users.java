@@ -8,8 +8,7 @@ package entity;
 
 import java.io.Serializable;
 
-public class Users implements Serializable
-{
+public class Users implements Serializable {
     private int id;
     private String userName;
     private String password;
@@ -17,8 +16,7 @@ public class Users implements Serializable
     private boolean admin;
     private String email;
 
-    public Users(int id, String userName, String password, double balance, boolean admin, String email) {
-        this.id = id;
+    public Users(String userName, String password, double balance, boolean admin, String email) {
         this.userName = userName;
         this.password = password;
         this.balance = balance;
@@ -28,10 +26,6 @@ public class Users implements Serializable
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUserName() {
