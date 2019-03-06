@@ -33,7 +33,7 @@ public class DataMapperUsers
         dbc = new DBConnector();
 
         String query = "SELECT * FROM cupcake.users "
-                + "WHERE `name`='" + userName + "';";
+                + "WHERE `username`='" + userName + "';";
 
         Connection connection = dbc.getConnection();
         Statement stmt = connection.createStatement();
@@ -55,20 +55,20 @@ public class DataMapperUsers
     The createUser-method takes a username, password, boolean and email as input.
     Adds User to Database.
      */
-    public void createUser(String username, String password, int balance, boolean admin, String email) throws SQLException 
+    public void createUser(String username, String password, String email) throws SQLException 
     {
        if (username != null || password != null || email != null)
        {    
         try {
             dbc = new DBConnector();
-            String createUser
-                    = "INSERT INTO cupcake.users (username, password, balance, email ) "
+            String addUser
+                    = "INSERT INTO cupcake.users (`username`, `password`, `balance`, `email` ) "
                     + "VALUES(?,?,0,?);";
 
-            PreparedStatement ps = dbc.getConnection().prepareStatement(createUser);
+            PreparedStatement ps = dbc.getConnection().prepareStatement(addUser);
             ps.setString(1, username);
             ps.setString(2, password);
-            ps.setString(4, email);
+            ps.setString(3, email);
             ps.executeUpdate();
             } catch (SQLException ex) {
           Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);  

@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Log in here</h1>
-        <form action="/action_page.php">
+         <form action="Controller?origin=Login" method="post">
             Username:<br>
             <input type="text" name="username" value="">
             <br>

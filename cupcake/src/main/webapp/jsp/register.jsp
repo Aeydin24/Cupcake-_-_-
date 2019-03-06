@@ -14,14 +14,15 @@
     <body>
         <h1>Register here</h1>
         <form method="POST"  action="/cupcake/Controller?origin=Login">
+            <input type="hidden" name="origin" value="registration">
         Username:<br>
         <input type="text" name="username" value="">
         <br>
         Password:<br>
-        <input type="password" name="psw" value="">
+        <input type="text" name="password" value="">
         <br>
         Email:<br>
-        <input type="emaul" name="email" value="">
+        <input type="text" name="email" value="">
         <br><br>
         <input type="submit" value="Create User">
 </form> 

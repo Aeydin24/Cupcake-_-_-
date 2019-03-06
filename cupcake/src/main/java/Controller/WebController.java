@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +33,7 @@ public class WebController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -43,11 +45,10 @@ public class WebController extends HttpServlet {
 //        {
 //            login(request, response);
 //        }
-        
         String origin = request.getParameter("origin");
         switch (origin) {
             case "Register":
-                register(request, response);
+                registration(request, response);
                 break;
             case "Login":
                 login(request, response);
@@ -60,23 +61,23 @@ public class WebController extends HttpServlet {
         }
     }
     
-    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException 
-    {
+    private void registration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         /* Get the User info from URL Parameters.*/
         String username = (String) request.getParameter("username");
         String email = (String) request.getParameter("email");
         String password = (String) request.getParameter("password");
-
-        DataMapperUsers db = new DataMapperUsers();
+        
+        DataMapperUsers dbu = new DataMapperUsers();
         /* Insert User into SQL Database */
-        db.createUser(username, password, email);
-        request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
+        dbu.createUser(username, password, email);
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
+        rd.forward(request, response);
     }
-
-    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{        
+    
+    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {        
         request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
-
+    
     private void shop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/jsp/shop.jsp").forward(request, response);
     }
