@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 
 /**
  *
@@ -16,6 +17,12 @@ import java.util.logging.Logger;
  */
 public class DataMapperUsers {
 
+    private databaseconnect dbc = new databaseconnect();
+    
+    public void setDataSource(DataSource ds)
+    {
+        dbc.setDataSource(ds);
+    }
     /*
     The getUser-method finds all information about the user that has the username, we give as input.
      */
@@ -59,14 +66,14 @@ public class DataMapperUsers {
      */
     public Users createUser(String username, String password, int balance, boolean admin, String email) throws SQLException {
         try {
-            databaseconnect conn = new databaseconnect();
-            conn.open();
+            dbc.open();
+            
 
             String createUser
                     = "INSERT INTO cupcake.users (username, password, balance, admin, email ) "
                     + "VALUES(?,?,?,?,?);";
 
-            PreparedStatement ps = conn.preparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = dbc.preparedStatement(createUser, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, username);
             ps.setString(2, password);
@@ -81,7 +88,7 @@ public class DataMapperUsers {
             if (resultSet.next()) {
                 return new Users(username, password, balance, admin, email);
             }
-
+            dbc.open();
         } catch (Exception e) {
             e.printStackTrace();
         }
