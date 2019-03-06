@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serlvet;
+package Controller;
 
-import command.Command;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,21 +17,47 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ndupo
  */
+@WebServlet(name = "WebController", urlPatterns = {"/Controller"})
+public class WebController extends HttpServlet {
 
-@WebServlet(name = "controller", urlPatterns = {"/controller"})
-public class controller extends HttpServlet {
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        String origin = request.getParameter("origin");
+        switch (origin) {
+            case "Register":
+                register(request, response);
+                break;
+            case "Login":
+                login(request, response);
+                break;
+            case "Shop":
+                shop(request, response);
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-          try
-        {
-            Command c = Command.from(request);
-            c.execute(request, response);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
+    }
+
+    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+    }
+
+    private void shop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/jsp/shop.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
