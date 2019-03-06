@@ -13,5 +13,14 @@
     </head>
     <body>
         <h1>Log in here</h1>
+        <form action="/action_page.php">
+            Username:<br>
+            <input type="text" name="username" value="">
+            <br>
+            Password:<br>
+            <input type="password" name="psw" value="">
+            <br><br>
+            <input type="submit" value="Log in">
+        </form> 
     </body>
 </html>

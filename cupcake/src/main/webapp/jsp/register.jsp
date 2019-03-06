@@ -13,8 +13,17 @@
     </head>
     <body>
         <h1>Register here</h1>
-        <form method="POST" action="/cupcake/Controller?origin=Login">
-            <button type="submit" class="btn btn-primary">Create Account</button>
-            </form>
+        <form method="POST"  action="/cupcake/Controller?origin=Login">
+        Username:<br>
+        <input type="text" name="username" value="">
+        <br>
+        Password:<br>
+        <input type="password" name="psw" value="">
+        <br>
+        Email:<br>
+        <input type="emaul" name="email" value="">
+        <br><br>
+        <input type="submit" value="Create User">
+</form> 
     </body>
 </html>
