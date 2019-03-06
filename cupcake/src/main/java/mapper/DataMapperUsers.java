@@ -22,7 +22,7 @@ public class DataMapperUsers {
             Statement statement = conn.getConnection().createStatement();
             String query
                     = "SELECT * "
-                    + "FROM cupcake.user "
+                    + "FROM cupcake.users "
                     + "WHERE username='" + username + "'";
             
             ResultSet rs = statement.executeQuery(query);
@@ -54,7 +54,7 @@ public class DataMapperUsers {
         DBConnector conn = new DBConnector();
 
         String createUser 
-                = "INSERT INTO cupcake.user"
+                = "INSERT INTO cupcake.users"
                 + "VALUES (" + username + ", " + password + ", 0, " + email + ");";
         PreparedStatement ps = conn.getConnection().prepareStatement(createUser);
         ps.executeUpdate();
