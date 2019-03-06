@@ -15,8 +15,11 @@ import java.util.logging.Logger;
  */
 public class DataMapperUsers {
     
+    /*
+    The getUser-method finds all information about the user that has the username, we give as input.
+    */
+    
     public Users getUser(String username) throws SQLException {
-        
         try {
             DBConnector conn = new DBConnector();
             Statement statement = conn.getConnection().createStatement();
@@ -50,12 +53,17 @@ public class DataMapperUsers {
         return null;
     }
 
-    public void createUser(String username, String password, String email) throws SQLException {
+    /*
+    The createUser-method takes a username, password, boolean and email as input.
+    iduser is AI in mysql.
+    */
+    
+    public void createUser(String username, String password, int balance, boolean admin, String email) throws SQLException {
         DBConnector conn = new DBConnector();
 
         String createUser 
                 = "INSERT INTO cupcake.users"
-                + "VALUES (" + username + ", " + password + ", 0, " + email + ");";
+                + "VALUES (" + username + ", " + password + ", " + balance + ", " + admin + ", " + email + ");";
         PreparedStatement ps = conn.getConnection().prepareStatement(createUser);
         ps.executeUpdate();
     }
