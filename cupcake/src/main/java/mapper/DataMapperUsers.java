@@ -43,7 +43,7 @@ public class DataMapperUsers {
                 email = rs.getString("email");
                 admin = rs.getBoolean("isadmin");
 
-                user = new Users(id, username, password, balance, admin, email);
+                user = new Users(username, password, balance, admin, email);
             }
             return user;
 
