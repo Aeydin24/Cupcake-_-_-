@@ -56,25 +56,25 @@ public class DataMapperUsersTest {
         Users result = instance.getUser(userName);
         assertEquals(expResult.toString(), result.toString());
     }
-    @Test
-    public void testGetTop() throws Exception {
-        System.out.println("getting Top");
-        String topName = "Blueberry";
-        DataMapperCupcake instance = new DataMapperCupcake();
-        Top expResult = new Top("Blueberry", 5);
-        Top result = instance.getTop(topName);
-        assertEquals(expResult, result);
-    }
-    @Test
-    public void testGetBottom() throws Exception {
-        System.out.println("getting Bottom");
-        String botName = "Vanilla";
-        DataMapperCupcake instance = new DataMapperCupcake();
-        Bottom expResult = new Bottom("Vanilla", 5);
-        Bottom result = instance.getBottom(botName);
-        assertEquals(expResult, result);
-        
-    }
+//    @Test
+//    public void testGetTop() throws Exception {
+//        System.out.println("getting Top");
+//        String topName = "Blueberry";
+//        DataMapperCupcake instance = new DataMapperCupcake();
+//        Top expResult = new Top("Blueberry", 5);
+//        Top result = instance.getTop(topName);
+//        assertEquals(expResult, result);
+//    }
+//    @Test
+//    public void testGetBottom() throws Exception {
+//        System.out.println("getting Bottom");
+//        String botName = "Vanilla";
+//        DataMapperCupcake instance = new DataMapperCupcake();
+//        Bottom expResult = new Bottom("Vanilla", 5);
+//        Bottom result = instance.getBottom(botName);
+//        assertEquals(expResult, result);
+//        
+//    }
     @Test
     public void testGetTopPrice() throws Exception {
         System.out.println("getting TopPrice");
@@ -84,14 +84,14 @@ public class DataMapperUsersTest {
         int result = instance.getTopPrice(toppingName);
         assertEquals(expResult, result);
     }
-    @Test
-    public void testGetBottomPrice() throws Exception {
-        System.out.println("getting Bottom Price");
-        String bottomname = "Vanilla";
-        DataMapperCupcake instance = new DataMapperCupcake();
-        int expResult = 5;
-        int result = instance.getBottomPrice(bottomname);
-        assertEquals(expResult, result);
-    }
+//    @Test
+//    public void testGetBottomPrice() throws Exception {
+//        System.out.println("getting Bottom Price");
+//        String bottomname = "Vanilla";
+//        DataMapperCupcake instance = new DataMapperCupcake();
+//        int expResult = (5);
+//        int result = instance.getBottomPrice(bottomname);
+//        assertEquals(expResult, result);
+//    }
     
 }
