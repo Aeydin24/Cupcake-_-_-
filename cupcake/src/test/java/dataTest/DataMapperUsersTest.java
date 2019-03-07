@@ -60,7 +60,7 @@ public class DataMapperUsersTest {
         System.out.println("getTopPrice");
         String toppingName = "Blueberry";
         DataMapperCupcake instance = new DataMapperCupcake();
-        int expResult = (5);
+        int expResult =  (5);
         int result = instance.getTopPrice(toppingName);
         assertEquals(expResult, result);
         
