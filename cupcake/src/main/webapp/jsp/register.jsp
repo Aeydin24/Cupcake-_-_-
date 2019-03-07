@@ -19,10 +19,10 @@
         <input type="text" name="username" value="">
         <br>
         Password:<br>
-        <input type="text" name="password" value="">
+        <input type="password" name="password" value="">
         <br>
         Email:<br>
-        <input type="text" name="email" value="">
+        <input type="email" name="email" value="">
         <br><br>
         <input type="submit" value="Create User">
 </form> 

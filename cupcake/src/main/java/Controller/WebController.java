@@ -65,6 +65,9 @@ public class WebController extends HttpServlet {
             case "ForwardLogin":
                 forwardLogin(request, response);
                 break;
+            case "Error":
+                error(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -121,6 +124,10 @@ public class WebController extends HttpServlet {
             {
                 Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, e);
             }
+        }
+        else
+        {
+            response.sendRedirect("jsp/errorpage.jsp");
         }
     }
     
@@ -186,6 +193,10 @@ public class WebController extends HttpServlet {
 
     private void forwardLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+    }
+
+    private void error(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("jsp/login.jsp");
     }
 
 }
