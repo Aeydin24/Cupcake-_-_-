@@ -68,7 +68,7 @@ public class WebController extends HttpServlet {
             case "Error":
                 error(request, response);
                 break;
-            case "CupcakeToCart":
+            case "AddProduct":
                 cupcakeToCart(request, response);
                 break;
             case "AddBalance":
