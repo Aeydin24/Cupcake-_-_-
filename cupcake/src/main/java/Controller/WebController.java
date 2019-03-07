@@ -71,8 +71,8 @@ public class WebController extends HttpServlet {
             case "CupcakeToCart":
                 cupcakeToCart(request, response);
                 break;
-            case "Balance":
-                balance(request, response);
+            case "AddBalance":
+                AddBalance(request, response);
             case "Checkout":
                 checkout(request, response);
                 break;
@@ -214,7 +214,7 @@ public class WebController extends HttpServlet {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void balance(HttpServletRequest request, HttpServletResponse response) {
+    private void AddBalance(HttpServletRequest request, HttpServletResponse response) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
