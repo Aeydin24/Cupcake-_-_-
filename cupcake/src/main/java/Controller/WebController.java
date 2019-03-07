@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import com.mysql.cj.util.StringUtils;
+import entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import mapper.DataMapperUsers;
 
 /**
@@ -84,6 +87,37 @@ public class WebController extends HttpServlet {
     
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {        
         
+        // Get parameters from Url (Username & Password) (From HTTP request)
+        String username = (String) request.getParameter("username");
+        String password = (String) request.getParameter("password");
+        
+        UserValidation uV = new UserValidation();
+        boolean valid = false;
+        
+        //Checks if user exsist in Database.
+        if(!StringUtils.isNullOrEmpty(username) && !StringUtils.isNullOrEmpty(password))
+        {
+            try {
+                valid = uV.isValid(username, password);
+            } catch (SQLException e) {
+               Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        
+        if (valid)
+        {
+            try {
+                HttpSession sess = request.getSession();
+                //Get user from Database.
+                Users user = (Users) uV.getUser(username);
+                //Set user session.
+                sess.setAttribute("user", user);
+                //Send user to shop if valid
+                response.sendRedirect("jsp/Shop.jsp");
+            } catch (Exception e) {
+                Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
         /* Show login page */
         request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
