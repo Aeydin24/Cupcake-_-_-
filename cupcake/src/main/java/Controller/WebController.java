@@ -258,6 +258,7 @@ public class WebController extends HttpServlet {
         }
     }
 
+    
     private void removeitem(Users user, HttpServletRequest request) {
         /* Get the cart */
         ShoppingCart cart = user.getCart();
