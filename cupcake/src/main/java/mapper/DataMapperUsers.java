@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -104,7 +106,32 @@ public class DataMapperUsers
         }
     }
     
+   /**
+    * The getUsers-method return a List of all Users.
+    */
     
-    
+    public List<Users> getUsers() throws SQLException {
+        List<Users> users = new ArrayList<>();
+        
+        dbc = new DBConnector();
+        
+        String query
+                = "SELECT * FROM cupcake.users;";
+        
+        Connection connection = dbc.getConnection();
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        
+        while (rs.next()) {
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            int balance = rs.getInt("balance");
+            String email = rs.getString("email");
+            Users user = new Users(username, password, balance, email);
+            users.add(user);
+        }
+        
+        return users;
+    }
     
 }
