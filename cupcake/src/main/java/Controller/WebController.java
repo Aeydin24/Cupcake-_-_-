@@ -66,23 +66,31 @@ public class WebController extends HttpServlet {
     
     private void registration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         
+        /* Get username, email and password from parameters in url */
         String username = (String) request.getParameter("username");
         String email = (String) request.getParameter("email");
         String password = (String) request.getParameter("password");
         
+        /* Make an instance of the datamapperUsers to get acces to its methods */ 
         DataMapperUsers dbu = new DataMapperUsers();
 
+        /* Isert the new user information into the sql database */ 
         dbu.createUser(username, password, email);
         
+        /* Forward user to login page */
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
         rd.forward(request, response);
     }
     
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {        
+        
+        /* Show login page */
         request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
     
     private void shop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        /* Show shop page */
         request.getRequestDispatcher("/jsp/shop.jsp").forward(request, response);
     }
 
@@ -134,6 +142,8 @@ public class WebController extends HttpServlet {
     }// </editor-fold>
 
     private void forwardRegistration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        /* Forwards the user to register */
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/register.jsp");
         rd.forward(request, response);
     }
