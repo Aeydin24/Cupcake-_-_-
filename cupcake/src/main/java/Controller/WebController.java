@@ -68,8 +68,8 @@ public class WebController extends HttpServlet {
             case "Error":
                 error(request, response);
                 break;
-            case "CupcakeToCard":
-                cupcakeToCard(request, response);
+            case "CupcakeToCart":
+                cupcakeToCart(request, response);
                 break;
             case "Balance":
                 balance(request, response);
@@ -210,7 +210,7 @@ public class WebController extends HttpServlet {
         response.sendRedirect("jsp/login.jsp");
     }
 
-    private void cupcakeToCard(HttpServletRequest request, HttpServletResponse response) {
+    private void cupcakeToCart(HttpServletRequest request, HttpServletResponse response) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
