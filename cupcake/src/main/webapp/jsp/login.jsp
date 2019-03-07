@@ -13,12 +13,13 @@
     </head>
     <body>
         <h1>Log in here</h1>
-         <form action="Controller?origin=Login" method="post">
+         <form method="POST" action="/cupcake/Controller" >
+             <input type="hidden" name="origin" value="Login">
             Username:<br>
             <input type="text" name="username" value="">
             <br>
             Password:<br>
-            <input type="password" name="psw" value="">
+            <input type="text" name="password" value="">
             <br><br>
             <input type="submit" value="Log in">
         </form> 

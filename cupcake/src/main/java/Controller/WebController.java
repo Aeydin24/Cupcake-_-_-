@@ -62,6 +62,9 @@ public class WebController extends HttpServlet {
             case "ForwardRegistration":
                 forwardRegistration(request, response);
                 break;
+            case "ForwardLogin":
+                forwardLogin(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -113,13 +116,12 @@ public class WebController extends HttpServlet {
                 //Set user session.
                 sess.setAttribute("user", user);
                 //Send user to shop if valid
-                response.sendRedirect("jsp/Shop.jsp");
-            } catch (Exception e) {
+                response.sendRedirect("jsp/shop.jsp");
+            } catch (Exception e) 
+            {
                 Logger.getLogger(WebController.class.getName()).log(Level.SEVERE, null, e);
             }
         }
-        /* Show login page */
-        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
     
     private void shop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -180,6 +182,10 @@ public class WebController extends HttpServlet {
         /* Forwards the user to register */
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/register.jsp");
         rd.forward(request, response);
+    }
+
+    private void forwardLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
 
 }
