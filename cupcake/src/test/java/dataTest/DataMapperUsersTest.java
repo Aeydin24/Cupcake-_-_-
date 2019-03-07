@@ -55,12 +55,14 @@ public class DataMapperUsersTest {
         Users result = instance.getUser(userName);
         assertEquals(expResult.toString(), result.toString());
     }
+    @Test
     public void testGetTopPrice() throws Exception {
         System.out.println("getTopPrice");
-        String toppingName = "Vanilla";
+        String toppingName = "Blueberry";
         DataMapperCupcake instance = new DataMapperCupcake();
-        Top expResult = new Top("Vanilla", 5);
-        Top result = instance.getTopPrice(toppingName);
+        int expResult = (5);
+        int result = instance.getTopPrice(toppingName);
+        assertEquals(expResult, result);
         
     }
 }
