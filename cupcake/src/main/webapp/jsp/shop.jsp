@@ -4,6 +4,9 @@
     Author     : ndupo
 --%>
 
+<%@page import="mapper.DataMapperUsers"%>
+<%@page import="mapper.DataMapperCupcake"%>
+<%@page import="entity.Users"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +15,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Welcome (User)</h1>
+        <h1>Welcome to the cupake shop</h1>
+        
     </body>
 </html>

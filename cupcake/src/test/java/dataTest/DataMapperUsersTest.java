@@ -47,15 +47,15 @@ public class DataMapperUsersTest {
      * @throws java.lang.Exception
      */
     
-    @Test
-    public void testGetUser() throws Exception {
-        System.out.println("getting User");
-        String userName = "Test";
-        DataMapperUsers instance = new DataMapperUsers();
-        Users expResult = new Users("Test", "Test", 0, "Test@Test.com");
-        Users result = instance.getUser(userName);
-        assertEquals(expResult.toString(), result.toString());
-    }
+//    @Test
+//    public void testGetUser() throws Exception {
+//        System.out.println("getting User");
+//        String userName = "Test";
+//        DataMapperUsers instance = new DataMapperUsers();
+//        Users expResult = new Users("Test", "Test", 0, "Test@Test.com");
+//        Users result = instance.getUser(userName);
+//        assertEquals(expResult.toString(), result.toString());
+//    }
 //    @Test
 //    public void testGetTop() throws Exception {
 //        System.out.println("getting Top");
@@ -75,15 +75,15 @@ public class DataMapperUsersTest {
 //        assertEquals(expResult, result);
 //        
 //    }
-    @Test
-    public void testGetTopPrice() throws Exception {
-        System.out.println("getting TopPrice");
-        String toppingName = "Blueberry";
-        DataMapperCupcake instance = new DataMapperCupcake();
-        int expResult =  (5);
-        int result = instance.getTopPrice(toppingName);
-        assertEquals(expResult, result);
-    }
+//    @Test
+//    public void testGetTopPrice() throws Exception {
+//        System.out.println("getting TopPrice");
+//        String toppingName = "Blueberry";
+//        DataMapperCupcake instance = new DataMapperCupcake();
+//        int expResult =  (5);
+//        int result = instance.getTopPrice(toppingName);
+//        assertEquals(expResult, result);
+//    }
 //    @Test
 //    public void testGetBottomPrice() throws Exception {
 //        System.out.println("getting Bottom Price");
