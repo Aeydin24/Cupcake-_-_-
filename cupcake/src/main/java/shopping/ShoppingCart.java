@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package shopping;
 
 import java.util.ArrayList;
@@ -20,7 +15,7 @@ public class ShoppingCart {
      * an invoice_id to prepare it for assignment 6. Create a ShoppingCart class
      * that has a list of LineItems (create this class too) The shopping cart
      * should be stored in the session (Why do you think?).
-     */
+     */ 
     private List<LineItem> lineItems;
     private int invoiceid;
     private String date;
@@ -42,45 +37,33 @@ public class ShoppingCart {
     }
 
     /**
-     * Add line item
-     *
-     * @param lineItem
+     * The addLineItem-method adds a lineItem to the List of lineItems
      */
     public void addLineItem(LineItem lineItem) {
         this.lineItems.add(lineItem);
     }
 
     /**
-     *
-     * @return
+     * The getLineItems-method returns a list of all lineItems in the List of lineItems
      */
     public List<LineItem> getLineItems() {
         return lineItems;
     }
 
     /**
-     * Get invoice ID
-     *
-     * @return int
+     * Get-method
      */
     public int getInvoiceid() {
         return invoiceid;
     }
 
     /**
-     * Set invoice ID
-     *
-     * @param invoiceid
+     * Set-method
      */
     public void setInvoiceid(int invoiceid) {
         this.invoiceid = invoiceid;
     }
 
-    /**
-     * To String
-     *
-     * @return String
-     */
     @Override
     public String toString() {
         String print = "";
