@@ -68,6 +68,17 @@ public class WebController extends HttpServlet {
             case "Error":
                 error(request, response);
                 break;
+            case "CupcakeToCard":
+                cupcakeToCard(request, response);
+                break;
+            case "Balance":
+                balance(request, response);
+            case "Checkout":
+                checkout(request, response);
+                break;
+            case "RemoveItem":
+                removeItem(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -197,6 +208,22 @@ public class WebController extends HttpServlet {
 
     private void error(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("jsp/login.jsp");
+    }
+
+    private void cupcakeToCard(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void balance(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void checkout(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void removeItem(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
