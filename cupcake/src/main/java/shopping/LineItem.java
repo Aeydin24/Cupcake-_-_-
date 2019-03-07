@@ -4,7 +4,8 @@ import java.util.Objects;
 
 /**
  *
- * @author
+ * @author Benjamin og Christian
+ *
  */
 public class LineItem {
 
@@ -18,37 +19,27 @@ public class LineItem {
     private int quantity;
     private final Cupcake cupcake;
 
-    /**
-     * Constructor
-     */
+    
     public LineItem(Cupcake cupcake) {
         this.cupcake = cupcake;
     }
 
-    /**
-     * Get-method
-     */
+
     public int getQuantity() {
         return quantity;
     }
 
-    /**
-     * Get-method
-     */
+
     public Cupcake getCupcake() {
         return cupcake;
     }
 
-    /**
-     * addQuantity adds more money to the quantity
-     */
+
     public void addQuantity(int quantity) {
         this.quantity = this.quantity + quantity;
     }
 
-    /**
-     * setQuantity changes the quantity
-     */
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }

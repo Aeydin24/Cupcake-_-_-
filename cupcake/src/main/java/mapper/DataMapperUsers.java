@@ -133,5 +133,39 @@ public class DataMapperUsers
         
         return users;
     }
-    
+    //ehj
+    public void setBalance(Users user, double userbalance) {
+        try {
+            String username = user.getUserName();
+            String balance = String.valueOf(userbalance);
+            dbc = new DBConnector();
+            String auto = "SET autocommit = 0;";
+            String trans = "START TRANSACTION;";
+            String query = "UPDATE users SET balance = ? WHERE name = ?;";
+            String commit = "COMMIT;";
+            String reAuto = "SET autocommit = 1;";
+            PreparedStatement ps = dbc.getConnection().prepareStatement(auto);
+            ps.executeUpdate();
+            ps = dbc.getConnection().prepareStatement(trans);
+            ps.executeUpdate();
+            ps = dbc.getConnection().prepareStatement(query);
+            ps.setString(1, balance);
+            ps.setString(2, username);
+            ps.executeUpdate();
+            ps = dbc.getConnection().prepareStatement(commit);
+            ps.executeUpdate();
+            ps = dbc.getConnection().prepareStatement(reAuto);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                String rollBack = "ROLLBACK;";
+                PreparedStatement ps = dbc.getConnection().prepareStatement(rollBack);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
