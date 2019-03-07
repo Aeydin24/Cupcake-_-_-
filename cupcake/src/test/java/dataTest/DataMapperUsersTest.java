@@ -5,7 +5,9 @@
  */
 package dataTest;
 
+import entity.Top;
 import entity.Users;
+import mapper.DataMapperCupcake;
 import mapper.DataMapperUsers;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -52,5 +54,13 @@ public class DataMapperUsersTest {
         Users expResult = new Users("Test", "Test", 0, "Test@Test.com");
         Users result = instance.getUser(userName);
         assertEquals(expResult.toString(), result.toString());
+    }
+    public void testGetTopPrice() throws Exception {
+        System.out.println("getTopPrice");
+        String toppingName = "Vanilla";
+        DataMapperCupcake instance = new DataMapperCupcake();
+        Top expResult = new Top("Vanilla", 5);
+        Top result = instance.getTopPrice(toppingName);
+        
     }
 }
