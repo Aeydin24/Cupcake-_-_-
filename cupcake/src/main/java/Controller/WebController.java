@@ -10,6 +10,7 @@ import entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import mapper.DataMapperUsers;
+import shopping.LineItem;
+import shopping.ShoppingCart;
 
 /**
  *
@@ -41,13 +44,9 @@ public class WebController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-
-        // test that the parameter gets send to server (parameter = value)
-//        String username = request.getParameter("username");
-//        if("hanne".equals(username))
-//        {
-//            login(request, response);
-//        }
+        HttpSession session = request.getSession();
+        Users user = (Users) session.getAttribute("user");
+       
         String origin = request.getParameter("origin");
         switch (origin) {
             case "Registration":
@@ -68,16 +67,16 @@ public class WebController extends HttpServlet {
             case "Error":
                 error(request, response);
                 break;
-            case "CupcakeToCart":
-                cupcakeToCart(request, response);
+            case "AddProduct":
+                cupcakeToCart(user, request);
                 break;
             case "AddBalance":
-                AddBalance(request, response);
+                addBalance(request, user);
             case "Checkout":
-                checkout(request, response);
+                checkout(user, request);
                 break;
             case "RemoveItem":
-                removeItem(request, response);
+                removeitem(user, request);
                 break;
             default:
                 throw new AssertionError();
@@ -210,20 +209,74 @@ public class WebController extends HttpServlet {
         response.sendRedirect("jsp/login.jsp");
     }
 
-    private void cupcakeToCart(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void cupcakeToCart(Users user, HttpServletRequest request) throws SQLException {
+        double userbalance = user.getBalance();
+        int cartPrice = user.getTotalPrice();
+        /* If user does NOT have enough money for the purchase */
+        if (userbalance < cartPrice) {
+            // Send errormessage to User
+            String errormessage = "Not enough money on your balance "
+                    + "for this purchase";
+            request.setAttribute("errormessage", errormessage);
+        } else {
+            //if user has money:
+            /* Removes the money from the Balance of the User */
+            user.addBalance(-cartPrice);
+            /* Makes a new empty shoppingcart and adds that to user
+            effectively resetting the cart. */
+            ShoppingCart emptyCart = new ShoppingCart();
+            user.setCart(emptyCart);
+        }
     }
 
-    private void AddBalance(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void addBalance(HttpServletRequest request, Users user) throws NumberFormatException, SQLException {
+        String amount = (String) request.getParameter("amount");
+        int money = Integer.parseInt(amount);
+        user.addBalance(money);
+        DataMapperUsers DB = new DataMapperUsers();
+        DB.setBalance(user, user.getBalance());
     }
 
-    private void checkout(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void checkout(Users user, HttpServletRequest request) throws SQLException {
+        double userbalance = user.getBalance();
+        int cartPrice = user.getTotalPrice();
+        /* If user does NOT have enough money for the purchase */
+        if (userbalance < cartPrice) {
+            // Send errormessage to User
+            String errormessage = "Not enough money on your balance "
+                    + "for this purchase";
+            request.setAttribute("errormessage", errormessage);
+        } else {
+            /* If user DOES have enough money. */
+            DataMapperUsers db = new DataMapperUsers();
+            /* Removes the money from the Balance of the User */
+            user.addBalance(-cartPrice);
+            /* Makes a new empty shoppingcart and adds that to user
+            effectively resetting the cart. */
+            ShoppingCart emptyCart = new ShoppingCart();
+            user.setCart(emptyCart);
+        }
     }
 
-    private void removeItem(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void removeitem(Users user, HttpServletRequest request) {
+        /* Get the cart */
+        ShoppingCart cart = user.getCart();
+        /* Get the parameter from the request */
+        String cakename = (String) request.getParameter("cake");
+        /* put cart into a List */
+        List<LineItem> items = cart.getLineItems();
+        /* For each item in the list */
+        for (int i = 0; i < items.size(); i++) {
+            String tname = items.get(i).getCupcake().getTop().getName();
+            String bname = items.get(i).getCupcake().getBottom().getName();
+            /* Remove the one that matches the one from the parameter */
+            String itemname = bname + tname;
+            if (itemname.equals(cakename)) {
+                items.remove(i);
+            }
+        }
+        cart.setLineItems(items);
+        user.setCart(cart);
     }
 
 }

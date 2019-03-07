@@ -9,7 +9,8 @@ import java.util.Objects;
 
 /**
  *
- * @author
+ * @author Benjamin og Christian
+ *
  */
 public class LineItem {
 
@@ -22,56 +23,32 @@ public class LineItem {
     private int quantity;
     private final Cupcake cupcake;
 
-    /**
-     * Constructor Object
-     *
-     * @param cupcake
-     */
+    
     public LineItem(Cupcake cupcake) {
         this.cupcake = cupcake;
     }
 
-    /**
-     * Get Quantity
-     *
-     * @return int
-     */
+    
     public int getQuantity() {
         return quantity;
     }
 
-    /**
-     * Get Cupcake object
-     *
-     * @return Cupcake object
-     */
+    
     public Cupcake getCupcake() {
         return cupcake;
     }
 
-    /**
-     * Add Quantity
-     *
-     * @param quantity Quantity you want to add
-     */
+    
     public void addQuantity(int quantity) {
         this.quantity = this.quantity + quantity;
     }
 
-    /**
-     * Set Quantity
-     *
-     * @param quantity Sets quantity to this amount
-     */
+    
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    /**
-     * To String
-     *
-     * @return String
-     */
+    
     @Override
     public String toString() {
         return cupcake.toString() + " Quantity: " + this.quantity + " Total Price: " + (cupcake.getPrice() * quantity);
