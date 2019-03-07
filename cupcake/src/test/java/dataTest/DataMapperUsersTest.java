@@ -5,6 +5,7 @@
  */
 package dataTest;
 
+import entity.Bottom;
 import entity.Top;
 import entity.Users;
 import mapper.DataMapperCupcake;
@@ -48,7 +49,7 @@ public class DataMapperUsersTest {
     
     @Test
     public void testGetUser() throws Exception {
-        System.out.println("getUser");
+        System.out.println("getting User");
         String userName = "Test";
         DataMapperUsers instance = new DataMapperUsers();
         Users expResult = new Users("Test", "Test", 0, "Test@Test.com");
@@ -56,13 +57,41 @@ public class DataMapperUsersTest {
         assertEquals(expResult.toString(), result.toString());
     }
     @Test
+    public void testGetTop() throws Exception {
+        System.out.println("getting Top");
+        String topName = "Blueberry";
+        DataMapperCupcake instance = new DataMapperCupcake();
+        Top expResult = new Top("Blueberry", 5);
+        Top result = instance.getTop(topName);
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testGetBottom() throws Exception {
+        System.out.println("getting Bottom");
+        String botName = "Vanilla";
+        DataMapperCupcake instance = new DataMapperCupcake();
+        Bottom expResult = new Bottom("Vanilla", 5);
+        Bottom result = instance.getBottom(botName);
+        assertEquals(expResult, result);
+        
+    }
+    @Test
     public void testGetTopPrice() throws Exception {
-        System.out.println("getTopPrice");
+        System.out.println("getting TopPrice");
         String toppingName = "Blueberry";
         DataMapperCupcake instance = new DataMapperCupcake();
         int expResult =  (5);
         int result = instance.getTopPrice(toppingName);
         assertEquals(expResult, result);
-        
     }
+    @Test
+    public void testGetBottomPrice() throws Exception {
+        System.out.println("getting Bottom Price");
+        String bottomname = "Vanilla";
+        DataMapperCupcake instance = new DataMapperCupcake();
+        int expResult = 5;
+        int result = instance.getBottomPrice(bottomname);
+        assertEquals(expResult, result);
+    }
+    
 }

@@ -125,7 +125,9 @@ public class DataMapperCupcake {
             while (rs.next()) {
                 price = rs.getInt("price");
             }
+            System.out.println(price);
             return price;
+            
         } catch (SQLException ex) {
             System.out.println(ex);
         }
@@ -155,7 +157,7 @@ public class DataMapperCupcake {
         return 0;
     }
 
-    private Top getTop(String name) {
+    public Top getTop(String name) {
          if (name != null) {
             int price = getTopPrice(name);
             Top top = new Top(name, price);
@@ -164,7 +166,7 @@ public class DataMapperCupcake {
         return null;
     }
 
-    private Bottom getBottom(String name) {
+    public Bottom getBottom(String name) {
          if (name != null) {
             int price = getBottomPrice(name);
             Bottom bot = new Bottom(name, price);

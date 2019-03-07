@@ -6,8 +6,11 @@
 package MainTest;
 
 import db.connector.DBConnector;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mapper.DataMapperUsers;
@@ -42,8 +45,53 @@ public class CreateUserMainTest
             }
         }
     }
+    public void addTopping(String name, int price) throws SQLException
+             {
+        dbc = new DBConnector();
+
+        String insertTopping = "INSERT INTO `cupcake`.`toppings` (name, price) "
+                + "VALUES (?, " + price + ");";
+        PreparedStatement ps = dbc.getConnection().prepareStatement(insertTopping);
+        ps.setString(1, name);
+        ps.executeUpdate();
+                 System.out.println("Topping added to database");
+    }
+    public void addBottom(String name, int price) throws SQLException
+            {
+        dbc = new DBConnector();
+
+        String insertBottom = "INSERT INTO `cupcake`.`bottoms` (name, price) "
+                + "VALUES (?, " + price + ");";
+        PreparedStatement ps = dbc.getConnection().prepareStatement(insertBottom);
+        ps.setString(1, name);
+        ps.executeUpdate();
+                System.out.println("bottom added to database");
+    }
+    public int getBottomPrice(String name) {
+        try {
+            dbc = new DBConnector();
+
+            String query = "SELECT price FROM `Cupcake`.`bottoms` "
+                    + "WHERE `cupcake`.`bottoms`.`name` = '" + name + "';";
+
+            Connection connection = dbc.getConnection();
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            int price = 0;
+
+            while (rs.next()) {
+                price = rs.getInt("Price");
+            }
+            return price;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return 0;
+    }
+    
     public static void main(String[] args) throws SQLException {
         CreateUserMainTest mt = new CreateUserMainTest();
-        mt.createUser("Test2", "Test2", "Test2@Test.com");
+        
     }
 }

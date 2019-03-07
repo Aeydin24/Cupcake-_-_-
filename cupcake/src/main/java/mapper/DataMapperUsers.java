@@ -50,7 +50,7 @@ public class DataMapperUsers
         user.setUserName(userName);
         return user;
     }
-
+    
     /*
     The createUser-method takes a username, password, boolean and email as input.
     Adds User to Database.
@@ -75,4 +75,5 @@ public class DataMapperUsers
             }
         }
     }
+    
 }
