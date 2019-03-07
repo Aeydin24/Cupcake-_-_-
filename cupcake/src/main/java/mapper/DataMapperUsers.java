@@ -133,6 +133,7 @@ public class DataMapperUsers
         
         return users;
     }
+    //ehj
     public void setBalance(Users user, double userbalance) {
         try {
             String username = user.getUserName();

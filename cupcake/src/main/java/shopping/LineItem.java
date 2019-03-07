@@ -14,7 +14,8 @@ public class LineItem {
      * cart. If the user order the same cake twice we can add yet another
      * LineItem (or the quantity of an already existing Line Item can be
      * incremented).
-     */   
+     */
+    
     private int quantity;
     private final Cupcake cupcake;
 

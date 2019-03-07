@@ -15,7 +15,8 @@ public class ShoppingCart {
      * an invoice_id to prepare it for assignment 6. Create a ShoppingCart class
      * that has a list of LineItems (create this class too) The shopping cart
      * should be stored in the session (Why do you think?).
-     */ 
+     */
+    //sdfg
     private List<LineItem> lineItems;
     private int invoiceid;
     private String date;
