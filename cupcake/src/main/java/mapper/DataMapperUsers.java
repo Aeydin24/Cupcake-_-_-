@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -23,17 +25,19 @@ public class DataMapperUsers
     public DataMapperUsers() throws SQLException {
         this.dbc = new DBConnector();
     }
-    /*
-    The getUser-method finds all information about the user that has the username, we give as input.
-     */
-    public Users getUser(String userName) throws SQLException {
+    
+   /**
+    * The getUser-method finds all information about the user that has the username, we give as input.
+    */
+    
+    public Users getUser(String username) throws SQLException {
         
         Users user = new Users();
 
         dbc = new DBConnector();
 
         String query = "SELECT * FROM cupcake.users "
-                + "WHERE `username`='" + userName + "';";
+                + "WHERE `username`='" + username + "';";
 
         Connection connection = dbc.getConnection();
         Statement stmt = connection.createStatement();
@@ -47,14 +51,15 @@ public class DataMapperUsers
             String email = rs.getString("email");
             user.setEmail(email);
         }
-        user.setUserName(userName);
+        user.setUserName(username);
         return user;
     }
     
-    /*
-    The createUser-method takes a username, password, boolean and email as input.
-    Adds User to Database.
-     */
+   /**
+    * The createUser-method takes a username, password and email as input.
+    * Adds User to Database.
+    */
+    
     public void createUser(String username, String password, String email) throws SQLException 
     {
        if (username != null || password != null || email != null)
@@ -74,6 +79,59 @@ public class DataMapperUsers
           Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);  
             }
         }
+    }
+    
+   /**
+    * The addBalance-method adds money to the users account.
+    */
+    
+    public void addBalance(String username, int money) throws SQLException {
+        try {
+            dbc = new DBConnector();
+        
+        String insert
+                = "UPDATE cupcake.users SET balance=balance + ? "
+                + "WHERE username='?';";
+        
+        PreparedStatement ps = dbc.getConnection().prepareStatement(insert);
+        
+        /* Convert int money to String balance */
+        String balance = String.valueOf(money);
+        
+        ps.setString(1, balance);
+        ps.setString(2, username);
+        ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+   /**
+    * The getUsers-method return a List of all Users.
+    */
+    
+    public List<Users> getUsers() throws SQLException {
+        List<Users> users = new ArrayList<>();
+        
+        dbc = new DBConnector();
+        
+        String query
+                = "SELECT * FROM cupcake.users;";
+        
+        Connection connection = dbc.getConnection();
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        
+        while (rs.next()) {
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            int balance = rs.getInt("balance");
+            String email = rs.getString("email");
+            Users user = new Users(username, password, balance, email);
+            users.add(user);
+        }
+        
+        return users;
     }
     
 }
