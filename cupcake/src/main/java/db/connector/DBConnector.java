@@ -10,11 +10,11 @@ public class DBConnector
     private Connection connection = null;
 
     //Constants
-    private static final String IP = "188.166.117.153";
-    private static final String PORT = "22";
+    private static final String IP = "localhost";
+    private static final String PORT = "3306";
     public static final String DATABASE = "cupcake";
-    private static final String USERNAME = "reader";
-    private static final String PASSWORD = "9CWkata7";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "1234";
 
     public DBConnector() throws SQLException {
         try {
