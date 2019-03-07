@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package shopping;
 import entity.Cupcake;
 import java.util.Objects;
@@ -19,59 +14,45 @@ public class LineItem {
      * LineItem (or the quantity of an already existing Line Item can be
      * incremented).
      */
+    
     private int quantity;
     private final Cupcake cupcake;
 
     /**
-     * Constructor Object
-     *
-     * @param cupcake
+     * Constructor
      */
     public LineItem(Cupcake cupcake) {
         this.cupcake = cupcake;
     }
 
     /**
-     * Get Quantity
-     *
-     * @return int
+     * Get-method
      */
     public int getQuantity() {
         return quantity;
     }
 
     /**
-     * Get Cupcake object
-     *
-     * @return Cupcake object
+     * Get-method
      */
     public Cupcake getCupcake() {
         return cupcake;
     }
 
     /**
-     * Add Quantity
-     *
-     * @param quantity Quantity you want to add
+     * addQuantity adds more money to the quantity
      */
     public void addQuantity(int quantity) {
         this.quantity = this.quantity + quantity;
     }
 
     /**
-     * Set Quantity
-     *
-     * @param quantity Sets quantity to this amount
+     * setQuantity changes the quantity
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    /**
-     * To String
-     *
-     * @return String
-     */
     @Override
     public String toString() {
         return cupcake.toString() + " Quantity: " + this.quantity + " Total Price: " + (cupcake.getPrice() * quantity);
