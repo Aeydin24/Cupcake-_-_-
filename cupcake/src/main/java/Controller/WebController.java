@@ -7,6 +7,7 @@
 package Controller;
 
 import com.mysql.cj.util.StringUtils;
+import entity.Cupcake;
 import entity.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import mapper.DataMapperCupcake;
 import mapper.DataMapperUsers;
 import shopping.LineItem;
 import shopping.ShoppingCart;
@@ -69,15 +71,15 @@ public class WebController extends HttpServlet {
                 error(request, response);
                 break;
             case "AddProduct":
-                cupcakeToCart(user, request);
+                cupcakeToCart(user, request, response);
                 break;
             case "AddBalance":
                 addBalance(request, user, response);
             case "Checkout":
-                checkout(user, request);
+                checkout(user, request, response);
                 break;
             case "RemoveItem":
-                removeitem(user, request);
+                removeitem(user, request, response);
                 break;
             default:
                 throw new AssertionError();
@@ -210,24 +212,57 @@ public class WebController extends HttpServlet {
         response.sendRedirect("jsp/login.jsp");
     }
 
-    private void cupcakeToCart(Users user, HttpServletRequest request) throws SQLException {
-        double userbalance = user.getBalance();
-        int cartPrice = user.getTotalPrice();
-        /* If user does NOT have enough money for the purchase */
-        if (userbalance < cartPrice) {
-            // Send errormessage to User
-            String errormessage = "Not enough money on your balance "
-                    + "for this purchase";
-            request.setAttribute("errormessage", errormessage);
-        } else {
-            //if user has money:
-            /* Removes the money from the Balance of the User */
-            user.addBalance(-cartPrice);
-            /* Makes a new empty shoppingcart and adds that to user
-            effectively resetting the cart. */
-            ShoppingCart emptyCart = new ShoppingCart();
-            user.setCart(emptyCart);
+    private void cupcakeToCart(Users user, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException 
+    {
+        // Get info about cupcake
+        String topName = (String) request.getParameter("top");
+        String botName = (String) request.getParameter("bottom");
+
+        // make cupcake
+        DataMapperCupcake dmc = new DataMapperCupcake();
+        Cupcake cupcake = dmc.makeCupcake(topName, botName);
+
+       // Make lineitem
+        LineItem lineitem = new LineItem(cupcake);
+        int qty = (int) Integer.parseInt(
+                (String) request.getParameter("qty")
+        );
+        lineitem.addQuantity(qty);
+
+        //Grab shoppingcart to put cupcake in.
+        ShoppingCart cart = new ShoppingCart();
+        ShoppingCart usercart = null;
+
+        boolean cupcakeincart = false;
+
+        if (user.getCart() != null) {
+            usercart = user.getCart();
+            // If cupcake exists in Cart.
+            for (LineItem item : usercart.getLineItems()) {
+                if (item.equals(lineitem)) {
+                    item.addQuantity(lineitem.getQuantity());
+                    cupcakeincart = true;
+                }
+            }
+            // If cupcake exists in Cart end.
         }
+
+        if (usercart != null && usercart.getLineItems() != null) {
+            List<LineItem> items = usercart.getLineItems();
+            for (LineItem item : items) {
+                cart.addLineItem(item);
+            }
+        }
+
+        // Adds item to the cart.
+        if (cupcakeincart == false) {
+            cart.addLineItem(lineitem);
+        }
+
+        /* Put cart back on User */
+        user.setCart(cart);
+
+        response.sendRedirect("jsp/shop.jsp");
     }
 
     private void addBalance(HttpServletRequest request, Users user, HttpServletResponse response) throws NumberFormatException, SQLException, ServletException, IOException {
@@ -239,12 +274,10 @@ public class WebController extends HttpServlet {
         DataMapperUsers DB = new DataMapperUsers();
         // Stores added amount in Database
         DB.setBalance(user, user.getBalance());
-        System.out.println("Balance added to database");
-        response.sendRedirect("jsp/shop.jsp");
         
     }
 
-    private void checkout(Users user, HttpServletRequest request) throws SQLException {
+    private void checkout(Users user, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         double userbalance = user.getBalance();
         int cartPrice = user.getTotalPrice();
         /* If user does NOT have enough money for the purchase */
@@ -253,20 +286,21 @@ public class WebController extends HttpServlet {
             String errormessage = "Not enough money on your balance "
                     + "for this purchase";
             request.setAttribute("errormessage", errormessage);
+            response.sendRedirect("jsp/insufficientAmount.jsp");
         } else {
             /* If user DOES have enough money. */
-            DataMapperUsers db = new DataMapperUsers();
             /* Removes the money from the Balance of the User */
             user.addBalance(-cartPrice);
             /* Makes a new empty shoppingcart and adds that to user
             effectively resetting the cart. */
             ShoppingCart emptyCart = new ShoppingCart();
             user.setCart(emptyCart);
+            response.sendRedirect("jsp/shop.jsp");
         }
     }
 
     
-    private void removeitem(Users user, HttpServletRequest request) {
+    private void removeitem(Users user, HttpServletRequest request, HttpServletResponse response) throws IOException {
         /* Get the cart */
         ShoppingCart cart = user.getCart();
         /* Get the parameter from the request */
@@ -285,6 +319,7 @@ public class WebController extends HttpServlet {
         }
         cart.setLineItems(items);
         user.setCart(cart);
+        response.sendRedirect("jsp/shop.jsp");
     }
 
 }

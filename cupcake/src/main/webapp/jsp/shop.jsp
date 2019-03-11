@@ -4,6 +4,9 @@
     Author     : ndupo
 --%>
 
+<%@page import="Controller.WebController"%>
+<%@page import="shopping.LineItem"%>
+<%@page import="shopping.ShoppingCart"%>
 <%@page import="entity.Bottom"%>
 <%@page import="entity.Top"%>
 <%@page import="java.util.List"%>
@@ -49,11 +52,10 @@
             // Add Dropdown menus:
         %>
         
-        
         <form method="POST" action="/cupcake/Controller" >
              <input type="hidden" name="origin" value="AddProduct">
                 <table class="table table-striped">
-                    <thead><tr><th>Bottom</th><th>Topping</th><th>Quantity</th><th>Select</th><th></th></tr></thead>
+                    <thead><tr><th>Bottom</th><th>Topping</th><th>Quantity</th><th></th><th></th></tr></thead>
                         <tbody>
                             <tr>
                                 <td><select name="bottom" id="bottomSelect">
@@ -71,11 +73,61 @@
                                         }
                                     %>
                                     </select>
-                                <td><input type="text" name="qty" placeholder="quantity" id="qtyInput"></td>
+                                <td><input type="text" name="qty" placeholder="How many you want?" id="qtyInput"></td>
                                 <td><input type="submit" name="submit" value="Add to cart"></td><td><span id="errorContainer"></span></td>
                             </tr>
                         </tbody>
                 </table>
         </form>
+        
+        <%
+            // Add shoppingcart
+            ShoppingCart sCart = user.getCart();
+            
+            out.println("<h2> Shopping Cart: </2h>");
+            
+            // Adds total price to shoppingcart.
+            if(sCart != null)
+            {
+                out.print("<h3> Total price of cart: " + user.getTotalPrice() + "$</h3>");
+            }
+            
+            if (sCart == null)
+            {}
+            else
+            {
+                List<LineItem> items = sCart.getLineItems();
+                for (LineItem item : items)
+                {
+                    String topName = item.getCupcake().getTop().getName();
+                    String botName = item.getCupcake().getBottom().getName();
+                    out.println("<p style=\"font-size:16px\"> "
+                    + "Cupcake: " + item.toString() + "</p>"
+                    /* Button to remove the ListItem */ 
+            );
+                }
+            }
+            
+        // Add Checkout
+        if((sCart != null && !sCart.isEmpty()))
+        {
+        %>
+        <h3> Checkout Cart </h3> 
+        <form action="/cupcake/Controller" method="post">
+            <input type="hidden" name="origin" value="Checkout">
+            <input type="submit" value="Checkout"/>
+        </form>
+        <%
+        } else {
+        %>
+        
+        <p>
+        The cart is empty.
+        Add some delicious cupcakes to the cart!
+        </p>
+        
+        <%
+        } // End of checkout method
+        %>
     </body>
 </html>

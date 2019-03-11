@@ -37,7 +37,7 @@ public class Cupcake
     @Override
     public String toString() {
         return bottom.getName() + " bottom with " + top.getName() + 
-                " as topping, with totalPrice = " + totalPrice +  " $";
+                " topping " + totalPrice +  " $";
     }
     
 }
