@@ -230,12 +230,13 @@ public class WebController extends HttpServlet {
         }
     }
 
-    private void addBalance(HttpServletRequest request, Users user) throws NumberFormatException, SQLException {
+    private void addBalance(HttpServletRequest request, Users user) throws NumberFormatException, SQLException, ServletException, IOException {
         String amount = (String) request.getParameter("amount");
         int money = Integer.parseInt(amount);
         user.addBalance(money);
         DataMapperUsers DB = new DataMapperUsers();
         DB.setBalance(user, user.getBalance());
+        
     }
 
     private void checkout(Users user, HttpServletRequest request) throws SQLException {

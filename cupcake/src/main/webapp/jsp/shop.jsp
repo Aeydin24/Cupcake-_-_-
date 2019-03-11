@@ -15,7 +15,23 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Welcome to the cupake shop</h1>
+        <h1>Welcome to the cupcake shop</h1>
         
+        <%  //Get user from Database.
+            Users user = (Users) session.getAttribute("user");
+            
+            //Instance of relevant DataMapper.
+            DataMapperCupcake dmc = new DataMapperCupcake();
+            DataMapperUsers dmu = new DataMapperUsers();
+            
+            //Show the logged in user.
+            out.println("<h2> Hi! " + user.getUserName() + " </h2>");
+            
+            //Show user balance.
+            out.println("<p style=\"font-size:16px\"> " + " Balance  " + user.getBalance() + "</p>");
+
+        %>
+        
+
     </body>
 </html>
