@@ -32,6 +32,10 @@
 
         %>
         
-
+        <form method="POST" action="/cupcake/Controller" >
+             <input type="hidden" name="origin" value="AddBalance">
+            Amount:        <input type="text" name="amount"/><br/>
+            <input type="submit" value="add"/>
+        </form>
     </body>
 </html>

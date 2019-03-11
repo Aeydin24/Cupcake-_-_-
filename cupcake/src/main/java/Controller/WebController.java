@@ -72,7 +72,7 @@ public class WebController extends HttpServlet {
                 cupcakeToCart(user, request);
                 break;
             case "AddBalance":
-                addBalance(request, user);
+                addBalance(request, user, response);
             case "Checkout":
                 checkout(user, request);
                 break;
@@ -230,12 +230,17 @@ public class WebController extends HttpServlet {
         }
     }
 
-    private void addBalance(HttpServletRequest request, Users user) throws NumberFormatException, SQLException, ServletException, IOException {
+    private void addBalance(HttpServletRequest request, Users user, HttpServletResponse response) throws NumberFormatException, SQLException, ServletException, IOException {
+        // Request the amount from parameter
         String amount = (String) request.getParameter("amount");
         int money = Integer.parseInt(amount);
+        // Adds to user balance
         user.addBalance(money);
         DataMapperUsers DB = new DataMapperUsers();
+        // Stores added amount in Database
         DB.setBalance(user, user.getBalance());
+        System.out.println("Balance added to database");
+        response.sendRedirect("jsp/shop.jsp");
         
     }
 

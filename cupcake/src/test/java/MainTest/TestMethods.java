@@ -19,7 +19,7 @@ import mapper.DataMapperUsers;
  *
  * @author ndupo
  */
-public class CreateUserMainTest 
+public class TestMethods 
 {
     private DBConnector dbc;
     public void createUser(String username, String password, String email) throws SQLException 
@@ -91,7 +91,7 @@ public class CreateUserMainTest
     }
     
     public static void main(String[] args) throws SQLException {
-        CreateUserMainTest mt = new CreateUserMainTest();
+        TestMethods mt = new TestMethods();
         
     }
 }
