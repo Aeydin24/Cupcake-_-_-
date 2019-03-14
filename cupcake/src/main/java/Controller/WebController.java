@@ -285,7 +285,7 @@ public class WebController extends HttpServlet {
     }
 
     private void checkout(Users user, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        double userbalance = user.getBalance();
+        int userbalance = user.getBalance();
         int cartPrice = user.getTotalPrice();
         // If user doesnt have enough money for the purchase
         if (userbalance < cartPrice) {
@@ -294,8 +294,11 @@ public class WebController extends HttpServlet {
         } else {
             // If user have enough money.
             DataMapperUsers dbu = new DataMapperUsers();
-            // Removes the money from the Balance of the User.
-            user.addBalance(-cartPrice);
+
+            // Removes the money from the Balance of the User in database.
+            dbu.addBalance(user.getUserName(), user.getBalance()-cartPrice);
+           // Updates balance on html
+            user.setBalance(user.getBalance()-cartPrice);
             
             dbu.addInvoice(user);
             

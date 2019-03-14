@@ -40,7 +40,7 @@
         
         <form method="POST" action="/cupcake/Controller" >
              <input type="hidden" name="origin" value="AddBalance">
-                add amount: <input type="text" name="money"/><br/>
+                add amount: <input type="number" name="amount"/><br/>
             <input type="submit" value="add"/>
         </form>
         

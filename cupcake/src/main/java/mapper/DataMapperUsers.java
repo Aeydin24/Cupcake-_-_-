@@ -96,7 +96,7 @@ public class DataMapperUsers
         try {
             dbc = new DBConnector();
         
-        String insertBalance = "UPDATE `cupcake`.`users` SET balance = balance + ? WHERE username = ?;";
+        String insertBalance = "UPDATE `cupcake`.`users` SET balance = ? WHERE username = ?;";
         
         PreparedStatement ps = dbc.getConnection().prepareStatement(insertBalance);
         
