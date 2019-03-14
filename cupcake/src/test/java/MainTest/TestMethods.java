@@ -90,8 +90,33 @@ public class TestMethods
         return 0;
     }
     
+    public void addBalance(String username, int money) throws SQLException {
+        try {
+            dbc = new DBConnector();
+            System.out.println("Succesfully connected");
+        
+        String insertBalance = "UPDATE `cupcake`.`users` SET balance = balance + ? WHERE username = ?;";
+        
+        PreparedStatement ps = dbc.getConnection().prepareStatement(insertBalance);
+            System.out.println("Statement prepared");
+        
+        /* Convert int money to String balance */
+        String balance = String.valueOf(money);
+        
+        ps.setString(2, username);
+        ps.setString(1, balance);
+            System.out.println("Execute statement");
+        ps.executeUpdate();
+            System.out.println("Statement executed");
+        } catch (SQLException ex) {
+            Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void main(String[] args) throws SQLException {
         TestMethods mt = new TestMethods();
+        mt.addBalance("Test", 1000);
         
     }
+    
 }

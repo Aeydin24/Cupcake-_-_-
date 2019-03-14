@@ -40,7 +40,7 @@
         
         <form method="POST" action="/cupcake/Controller" >
              <input type="hidden" name="origin" value="AddBalance">
-                add amount: <input type="text" name="amount"/><br/>
+                add amount: <input type="text" name="money"/><br/>
             <input type="submit" value="add"/>
         </form>
         
@@ -99,12 +99,9 @@
                 List<LineItem> items = sCart.getLineItems();
                 for (LineItem item : items)
                 {
-                    String topName = item.getCupcake().getTop().getName();
-                    String botName = item.getCupcake().getBottom().getName();
                     out.println("<p style=\"font-size:16px\"> "
                     + "Cupcake: " + item.toString() + "</p>"
-                    /* Button to remove the ListItem */ 
-            );
+                    );
                 }
             }
             

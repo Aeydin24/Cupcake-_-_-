@@ -45,7 +45,7 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 

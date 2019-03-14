@@ -78,9 +78,6 @@ public class WebController extends HttpServlet {
             case "Checkout":
                 checkout(user, request, response);
                 break;
-            case "RemoveItem":
-                removeitem(user, request, response);
-                break;
             default:
                 throw new AssertionError();
         }
@@ -266,60 +263,39 @@ public class WebController extends HttpServlet {
     }
 
     private void addBalance(HttpServletRequest request, Users user, HttpServletResponse response) throws NumberFormatException, SQLException, ServletException, IOException {
-        // Request the amount from parameter
-        String amount = (String) request.getParameter("amount");
+        // Get parameter
+        String amount = (String) request.getParameter("money");
+        // Parse to int
         int money = Integer.parseInt(amount);
-        // Adds to user balance
+        // Add balance to database
+        DataMapperUsers dbu = new DataMapperUsers();
+        dbu.setBalance(user, user.getBalance());
+        // Add balance to user in session
         user.addBalance(money);
-        DataMapperUsers DB = new DataMapperUsers();
-        // Stores added amount in Database
-        DB.setBalance(user, user.getBalance());
         
     }
 
     private void checkout(Users user, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         double userbalance = user.getBalance();
         int cartPrice = user.getTotalPrice();
-        /* If user does NOT have enough money for the purchase */
+        // If user doesnt have enough money for the purchase
         if (userbalance < cartPrice) {
             // Send errormessage to User
-            String errormessage = "Not enough money on your balance "
-                    + "for this purchase";
-            request.setAttribute("errormessage", errormessage);
             response.sendRedirect("jsp/insufficientAmount.jsp");
         } else {
-            /* If user DOES have enough money. */
-            /* Removes the money from the Balance of the User */
+            // If user have enough money.
+            DataMapperUsers dbu = new DataMapperUsers();
+            // Removes the money from the Balance of the User.
             user.addBalance(-cartPrice);
-            /* Makes a new empty shoppingcart and adds that to user
-            effectively resetting the cart. */
+            
+            dbu.addInvoice(user);
+            
+            // Makes a new empty shoppingcart and adds that to user
+            // effectively resetting the cart.
             ShoppingCart emptyCart = new ShoppingCart();
             user.setCart(emptyCart);
             response.sendRedirect("jsp/shop.jsp");
         }
-    }
-
-    
-    private void removeitem(Users user, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        /* Get the cart */
-        ShoppingCart cart = user.getCart();
-        /* Get the parameter from the request */
-        String cakename = (String) request.getParameter("cake");
-        /* put cart into a List */
-        List<LineItem> items = cart.getLineItems();
-        /* For each item in the list */
-        for (int i = 0; i < items.size(); i++) {
-            String tname = items.get(i).getCupcake().getTop().getName();
-            String bname = items.get(i).getCupcake().getBottom().getName();
-            /* Remove the one that matches the one from the parameter */
-            String itemname = bname + tname;
-            if (itemname.equals(cakename)) {
-                items.remove(i);
-            }
-        }
-        cart.setLineItems(items);
-        user.setCart(cart);
-        response.sendRedirect("jsp/shop.jsp");
     }
 
 }

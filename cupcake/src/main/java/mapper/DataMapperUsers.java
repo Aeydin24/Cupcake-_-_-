@@ -2,16 +2,23 @@ package mapper;
 
 import entity.Users;
 import db.connector.DBConnector;
+import entity.Bottom;
+import entity.Cupcake;
+import entity.Top;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
+import shopping.LineItem;
+import shopping.ShoppingCart;
 
 /**
  *
@@ -89,15 +96,15 @@ public class DataMapperUsers
         try {
             dbc = new DBConnector();
         
-        String insertBalance = "UPDATE `cupcake`.`users` SET balance = balance + "+ money +" WHERE username = "+username+";";
+        String insertBalance = "UPDATE `cupcake`.`users` SET balance = balance + ? WHERE username = ?;";
         
         PreparedStatement ps = dbc.getConnection().prepareStatement(insertBalance);
         
         /* Convert int money to String balance */
-//        String balance = String.valueOf(money);
-//        
-//        ps.setString(2, username);
-//        ps.setString(1, balance);
+        String balance = String.valueOf(money);
+        
+        ps.setString(2, username);
+        ps.setString(1, balance);
         ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
@@ -132,38 +139,60 @@ public class DataMapperUsers
         return users;
     }
 
-    public void setBalance(Users user, double userbalance) {
+    public void setBalance(Users user, int userbalance) {
         try {
             String username = user.getUserName();
             String balance = String.valueOf(userbalance);
             dbc = new DBConnector();
-            String auto = "SET autocommit = 0;";
-            String trans = "START TRANSACTION;";
-            String query = "UPDATE users SET balance = ? WHERE name = ?;";
-            String commit = "COMMIT;";
-            String reAuto = "SET autocommit = 1;";
-            PreparedStatement ps = dbc.getConnection().prepareStatement(auto);
+            String query = "UPDATE `cupcake`.`users` SET balance = ? WHERE name = ?;";
+            PreparedStatement ps = dbc.getConnection().prepareStatement(query);
             ps.executeUpdate();
-            ps = dbc.getConnection().prepareStatement(trans);
-            ps.executeUpdate();
-            ps = dbc.getConnection().prepareStatement(query);
             ps.setString(1, balance);
             ps.setString(2, username);
-            ps.executeUpdate();
-            ps = dbc.getConnection().prepareStatement(commit);
-            ps.executeUpdate();
-            ps = dbc.getConnection().prepareStatement(reAuto);
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
             Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
-            try {
-                String rollBack = "ROLLBACK;";
-                PreparedStatement ps = dbc.getConnection().prepareStatement(rollBack);
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+    }
+    public void addInvoice(Users user) {
+        try {
+            dbc = new DBConnector();
+            
+            String name = user.getUserName();
+            String insertBalance = "INSERT INTO `cupcake`.`invoices` (username) VALUES (?);";
+            PreparedStatement ps = dbc.getConnection().prepareStatement(insertBalance);
+            ps.setString(1, name);
+   
+            ps.executeUpdate();
+
+            ShoppingCart cart = user.getCart();
+            for (LineItem item : cart.getLineItems()) {
+                addOrder(item);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addOrder(LineItem item) throws SQLException {
+        dbc = new DBConnector();
+
+        Cupcake cake = item.getCupcake();
+        Top top = cake.getTop();
+        Bottom bot = cake.getBottom();
+
+        String tname = top.getName();
+        String bname = bot.getName();
+        int qty = item.getQuantity();
+
+        String query = "INSERT INTO `cupcake`.`orderdetails` (tname, bname, qty)"
+                + "VALUES (?, ?, ?)";
+
+        PreparedStatement ps = dbc.getConnection().prepareStatement(query);
+        ps.setString(1, tname);
+        ps.setString(2, bname);
+        ps.setInt(3, qty);
+        ps.executeUpdate();
     }
 }
