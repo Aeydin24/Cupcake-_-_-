@@ -89,17 +89,15 @@ public class DataMapperUsers
         try {
             dbc = new DBConnector();
         
-        String insert
-                = "UPDATE cupcake.users SET balance=balance + ? "
-                + "WHERE username='?';";
+        String insertBalance = "UPDATE `cupcake`.`users` SET balance = balance + "+ money +" WHERE username = "+username+";";
         
-        PreparedStatement ps = dbc.getConnection().prepareStatement(insert);
+        PreparedStatement ps = dbc.getConnection().prepareStatement(insertBalance);
         
         /* Convert int money to String balance */
-        String balance = String.valueOf(money);
-        
-        ps.setString(1, balance);
-        ps.setString(2, username);
+//        String balance = String.valueOf(money);
+//        
+//        ps.setString(2, username);
+//        ps.setString(1, balance);
         ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
