@@ -264,15 +264,24 @@ public class WebController extends HttpServlet {
 
     private void addBalance(HttpServletRequest request, Users user, HttpServletResponse response) throws NumberFormatException, SQLException, ServletException, IOException {
         // Get parameter
-        String amount = (String) request.getParameter("money");
+        String amount = (String) request.getParameter("amount");
+       if(amount != null && !amount.isEmpty())
+       {
         // Parse to int
         int money = Integer.parseInt(amount);
-        // Add balance to database
-        DataMapperUsers dbu = new DataMapperUsers();
-        dbu.setBalance(user, user.getBalance());
         // Add balance to user in session
         user.addBalance(money);
-        
+        // Add balance to database
+        DataMapperUsers dbu = new DataMapperUsers();
+        dbu.addBalance(user.getUserName(), user.getBalance());
+       
+       }
+       else 
+       {
+            String errormessage = "Wrong input in Add Balance field. Try again.";
+            HttpSession session = request.getSession();
+            session.setAttribute("errormessage", errormessage);
+       }
     }
 
     private void checkout(Users user, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
