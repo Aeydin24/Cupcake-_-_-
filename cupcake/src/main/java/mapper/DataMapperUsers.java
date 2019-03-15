@@ -33,9 +33,7 @@ public class DataMapperUsers
         this.dbc = new DBConnector();
     }
     
-   /**
-    * The getUser-method finds all information about the user that has the username, we give as input.
-    */
+    // The method getUser finds all information about the user, we give as input.
     
     public Users getUser(String username) throws SQLException {
         
@@ -61,11 +59,8 @@ public class DataMapperUsers
         user.setUserName(username);
         return user;
     }
-    
-   /**
-    * The createUser-method takes a username, password and email as input.
-    * Adds User to Database.
-    */
+   
+    // The method createUser takes username, password and email as input, and adds the user to the database.
     
     public void createUser(String username, String password, String email) throws SQLException 
     {
@@ -88,9 +83,7 @@ public class DataMapperUsers
         }
     }
     
-   /**
-    * The addBalance-method adds money to the users account.
-    */
+    // The method addBalance adds moeny to the user in session account.
     
     public void addBalance(String username, int money) throws SQLException {
         try {
@@ -111,9 +104,7 @@ public class DataMapperUsers
         }
     }
     
-   /**
-    * The getUsers-method return a List of all Users.
-    */
+    // The method getUsers returns a list of all users.
     
     public List<Users> getUsers() throws SQLException {
         List<Users> users = new ArrayList<>();
@@ -139,6 +130,7 @@ public class DataMapperUsers
         return users;
     }
 
+    // The method setBalance sets the users balance.
     public void setBalance(Users user, int userbalance) {
         try {
             String username = user.getUserName();
@@ -155,6 +147,8 @@ public class DataMapperUsers
             Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    // The method addInvoice adds an invoice of the user in session to the database.
     public void addInvoice(Users user) {
         try {
             dbc = new DBConnector();
@@ -174,7 +168,7 @@ public class DataMapperUsers
             Logger.getLogger(DataMapperUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    // The method addOrder adds an orderdetail to the database.
     public void addOrder(LineItem item) throws SQLException {
         dbc = new DBConnector();
 
