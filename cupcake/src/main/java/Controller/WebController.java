@@ -44,6 +44,13 @@ public class WebController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws java.sql.SQLException
      */
+    
+    /** send the request from the JSP site to the right method and executes it.
+     * @param request
+     * @param response
+     * @throws javax.servlet.ServletException
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -82,7 +89,7 @@ public class WebController extends HttpServlet {
                 throw new AssertionError();
         }
     }
-    
+    /** Registrate a new user with the given parameters. */
     private void registration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         
         /* Get username, email and password from parameters in url */
@@ -90,27 +97,28 @@ public class WebController extends HttpServlet {
         String email = (String) request.getParameter("email");
         String password = (String) request.getParameter("password");
         
-        /* Make an instance of the datamapperUsers to get acces to its methods */ 
+        /* Make an instance of the datamapperUsers to get acces to its methods. */ 
         DataMapperUsers dbu = new DataMapperUsers();
 
-        /* Isert the new user information into the sql database */ 
+        /* Isert the new user information into the sql database. */ 
         dbu.createUser(username, password, email);
         
-        /* Forward user to login page */
+        /* Forward user to login page. */
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
         rd.forward(request, response);
     }
     
+    /** Logs in the new if the user has valid username and password. */
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {        
         
-        // Get parameters from Url (Username & Password) (From HTTP request)
+        /** Get parameters from Url (Username & Password) (From HTTP request). */
         String username = (String) request.getParameter("username");
         String password = (String) request.getParameter("password");
         
         UserValidation uV = new UserValidation();
         boolean valid = false;
         
-        //Checks if user exsist in Database.
+        /** Checks if user exsist in Database. */
         if(!StringUtils.isNullOrEmpty(username) && !StringUtils.isNullOrEmpty(password))
         {
             try {
@@ -124,11 +132,11 @@ public class WebController extends HttpServlet {
         {
             try {
                 HttpSession sess = request.getSession();
-                //Get user from Database.
+                /** Get user from Database. */
                 Users user = (Users) uV.getUser(username);
-                //Set user session.
+                /** Set user session. */
                 sess.setAttribute("user", user);
-                //Send user to shop if valid
+                /** Send user to shop if valid. */
                 response.sendRedirect("jsp/shop.jsp");
             } catch (Exception e) 
             {
@@ -140,7 +148,7 @@ public class WebController extends HttpServlet {
             response.sendRedirect("jsp/errorpage.jsp");
         }
     }
-    
+    /** Forwards request to shop.jsp */
     private void shop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         /* Show shop page */
@@ -193,40 +201,42 @@ public class WebController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    /** Takes user from index page to registration through link on the index.html page. */
     private void forwardRegistration(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        /* Forwards the user to register */
+        /* Forwards the user to register. */
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/register.jsp");
         rd.forward(request, response);
     }
-
+    /** Takes user from index page to log in through link on the index.html page. */
     private void forwardLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
     }
-
+    /** if username or password is wrong redirects to log in page. */
     private void error(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("jsp/login.jsp");
     }
-
+    
+    /** Adds cupcake to cart. */
     private void cupcakeToCart(Users user, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException 
     {
-        // Get info about cupcake
+        /** Get info about cupcake. */
         String topName = (String) request.getParameter("top");
         String botName = (String) request.getParameter("bottom");
 
-        // make cupcake
+        /** make cupcake. */
         DataMapperCupcake dmc = new DataMapperCupcake();
         Cupcake cupcake = dmc.makeCupcake(topName, botName);
 
-       // Make lineitem
+       /** Make lineitem. */
         LineItem lineitem = new LineItem(cupcake);
         int qty = (int) Integer.parseInt(
                 (String) request.getParameter("qty")
         );
         lineitem.addQuantity(qty);
 
-        //Grab shoppingcart to put cupcake in.
+        /** Grab shoppingcart to put cupcake in. */
         ShoppingCart cart = new ShoppingCart();
         ShoppingCart usercart = null;
 
@@ -234,14 +244,14 @@ public class WebController extends HttpServlet {
 
         if (user.getCart() != null) {
             usercart = user.getCart();
-            // If cupcake exists in Cart.
+            /** If cupcake exists in Cart. */
             for (LineItem item : usercart.getLineItems()) {
                 if (item.equals(lineitem)) {
                     item.addQuantity(lineitem.getQuantity());
                     cupcakeincart = true;
                 }
             }
-            // If cupcake exists in Cart end.
+            /** If cupcake exists in Cart end. */
         }
 
         if (usercart != null && usercart.getLineItems() != null) {
@@ -251,27 +261,27 @@ public class WebController extends HttpServlet {
             }
         }
 
-        // Adds item to the cart.
+        /** Adds item to the cart. */
         if (cupcakeincart == false) {
             cart.addLineItem(lineitem);
         }
 
-        /* Put cart back on User */
+        /** Put cart back on User */
         user.setCart(cart);
 
         response.sendRedirect("jsp/shop.jsp");
     }
-
+    /** Adds money to the users balance */
     private void addBalance(HttpServletRequest request, Users user, HttpServletResponse response) throws NumberFormatException, SQLException, ServletException, IOException {
-        // Get parameter
+        /** Get parameter. */
         String amount = (String) request.getParameter("amount");
        if(amount != null && !amount.isEmpty())
        {
-        // Parse to int
+        /** Parse to int. */
         int money = Integer.parseInt(amount);
-        // Add balance to user in session
+        /** Add balance to user in session. */
         user.addBalance(money);
-        // Add balance to database
+        /** Add balance to database. */
         DataMapperUsers dbu = new DataMapperUsers();
         dbu.addBalance(user.getUserName(), user.getBalance());
        
@@ -283,27 +293,27 @@ public class WebController extends HttpServlet {
             session.setAttribute("errormessage", errormessage);
        }
     }
-
+    /** Checks out the user and the carts content and returns a new empty cart. */
     private void checkout(Users user, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int userbalance = user.getBalance();
         int cartPrice = user.getTotalPrice();
-        // If user doesnt have enough money for the purchase
+        /** If user doesnt have enough money for the purchase. */
         if (userbalance < cartPrice) {
-            // Send errormessage to User
+            /** Send errormessage to User. */
             response.sendRedirect("jsp/insufficientAmount.jsp");
         } else {
-            // If user have enough money.
+            /** If user have enough money. */
             DataMapperUsers dbu = new DataMapperUsers();
 
-            // Removes the money from the Balance of the User in database.
+            /** Removes the money from the Balance of the User in database. */
             dbu.addBalance(user.getUserName(), user.getBalance()-cartPrice);
-           // Updates balance on html
+           /** Updates balance on html. */
             user.setBalance(user.getBalance()-cartPrice);
             
             dbu.addInvoice(user);
             
-            // Makes a new empty shoppingcart and adds that to user
-            // effectively resetting the cart.
+            /** Makes a new empty shoppingcart and adds that to user. */
+            /** effectively resetting the cart. */
             ShoppingCart emptyCart = new ShoppingCart();
             user.setCart(emptyCart);
             response.sendRedirect("jsp/shop.jsp");

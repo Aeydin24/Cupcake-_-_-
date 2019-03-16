@@ -11,6 +11,7 @@ import java.util.List;
 import shopping.LineItem;
 import shopping.ShoppingCart;
 
+/** Entity class. */
 public class Users implements Serializable {
     
     private String userName;

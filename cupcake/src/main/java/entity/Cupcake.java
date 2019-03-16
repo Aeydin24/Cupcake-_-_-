@@ -9,6 +9,8 @@ package entity;
  *
  * @author ndupo
  */
+
+/** Entity class. */
 public class Cupcake 
 {
 

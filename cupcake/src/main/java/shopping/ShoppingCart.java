@@ -5,19 +5,15 @@ import java.util.List;
 
 /**
  *
- * @author
+ * @author Benjamin og Christian
  */
 public class ShoppingCart {
 
     /**
-     * The shopping cart holds Line Items which has information of which cupcake
-     * (bottom and topping) and the quantity of cupcakes. The Line Item also has
-     * an invoice_id to prepare it for assignment 6. Create a ShoppingCart class
-     * that has a list of LineItems (create this class too) The shopping cart
-     * should be stored in the session (Why do you think?).
+     * The shopping cart holds Line Items which has information of which
+     * bottom and topping the cupcake has, and the quantity of cupcakes.
      */
     private List<LineItem> lineItems;
-    private int invoiceid;
     private String date;
 
     public void setDate(String date) {
@@ -36,32 +32,16 @@ public class ShoppingCart {
         return lineItems == null || lineItems.isEmpty();
     }
 
-    /**
-     * The addLineItem-method adds a lineItem to the List of lineItems
-     */
+    /** Adds a lineItem to the List of lineItems
+     * @param lineItem */
     public void addLineItem(LineItem lineItem) {
         this.lineItems.add(lineItem);
     }
 
-    /**
-     * The getLineItems-method returns a list of all lineItems in the List of lineItems
-     */
+    /** returns a list of all lineItems in the List of lineItems
+     * @return  */
     public List<LineItem> getLineItems() {
         return lineItems;
-    }
-
-    /**
-     * Get-method
-     */
-    public int getInvoiceid() {
-        return invoiceid;
-    }
-
-    /**
-     * Set-method
-     */
-    public void setInvoiceid(int invoiceid) {
-        this.invoiceid = invoiceid;
     }
 
     @Override

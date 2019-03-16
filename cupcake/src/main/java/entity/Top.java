@@ -10,6 +10,7 @@ package entity;
  * @author ndupo
  */
 
+/** Entity class. */
 public class Top 
 {
     private final String name;

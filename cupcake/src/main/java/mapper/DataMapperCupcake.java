@@ -21,11 +21,16 @@ import java.util.List;
  *
  * @author ibenk
  */
-//bsg
+
 public class DataMapperCupcake {
-    
+   
+    /** Establish database connection */ 
    private DBConnector conn;
     
+   /** Adds topping to database.
+     * @param name
+     * @param price
+     * @throws java.sql.SQLException */
     public void addTopping(String name, int price) throws SQLException
              {
         conn = new DBConnector();
@@ -36,7 +41,11 @@ public class DataMapperCupcake {
         ps.setString(1, name);
         ps.executeUpdate();
     }
-
+    
+    /** Adds bottom to database.
+     * @param name
+     * @param price
+     * @throws java.sql.SQLException */
     public void addBottom(String name, int price) throws SQLException
             {
         conn = new DBConnector();
@@ -48,14 +57,20 @@ public class DataMapperCupcake {
         ps.executeUpdate();
     }
     
-        public Cupcake makeCupcake(String topName, String bottomName) {
+    /** Create a new cupcake.
+     * @param topName
+     * @param bottomName
+     * @return  */
+    public Cupcake makeCupcake(String topName, String bottomName) {
 
         Top top = getTop(topName);
         Bottom bottom = getBottom(bottomName);
         return new Cupcake(top, bottom);
 
     }
-
+    
+    /** Returns a list of all toppings
+     * @return  */
     public List<Top> getTops() {
         try {
             conn = new DBConnector();
@@ -82,7 +97,9 @@ public class DataMapperCupcake {
         }
         return null;
     }
-
+    
+    /** Returns a list of all bottoms.
+     * @return  */
     public List<Bottom> getBottoms() {
         try {
             conn = new DBConnector();
@@ -110,6 +127,9 @@ public class DataMapperCupcake {
         return null;
     }
 
+    /** Returns the price of a topping
+     * @param name
+     * @return  */
     public int getTopPrice(String name) {
         try {
             conn = new DBConnector();
@@ -135,6 +155,9 @@ public class DataMapperCupcake {
         return 0;
     }
 
+    /** Returns the price of a bottom.
+     * @param name
+     * @return  */
     public int getBottomPrice(String name) {
         try {
             conn = new DBConnector();
@@ -157,7 +180,10 @@ public class DataMapperCupcake {
         }
         return 0;
     }
-
+    
+    /** Returns a topping.
+     * @param name
+     * @return  */
     public Top getTop(String name) {
          if (name != null) {
             int price = getTopPrice(name);
@@ -167,6 +193,9 @@ public class DataMapperCupcake {
         return null;
     }
 
+    /** Returns a bottom.
+     * @param name
+     * @return  */
     public Bottom getBottom(String name) {
          if (name != null) {
             int price = getBottomPrice(name);
