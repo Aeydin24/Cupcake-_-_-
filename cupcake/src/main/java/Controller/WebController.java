@@ -104,8 +104,7 @@ public class WebController extends HttpServlet {
         dbu.createUser(username, password, email);
         
         /* Forward user to login page. */
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
-        rd.forward(request, response);
+        response.sendRedirect("jsp/login.jsp");
     }
     
     /** Logs in the new if the user has valid username and password. */
