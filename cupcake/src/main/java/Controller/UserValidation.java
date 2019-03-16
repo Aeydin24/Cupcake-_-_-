@@ -14,6 +14,7 @@ import mapper.DataMapperUsers;
  *
  * @author ndupo
  */
+
 public class UserValidation 
 {
     public UserValidation()
