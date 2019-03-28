@@ -115,7 +115,7 @@ public class TestMethods
     
     public static void main(String[] args) throws SQLException {
         TestMethods mt = new TestMethods();
-        mt.addBalance("Test", 1000);
+        mt.createUser("Test15", "Test", "Test@Test.com");
         
     }
     
